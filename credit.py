@@ -11,9 +11,9 @@ def insert_spaces(card_number):
 @app.route('/', methods=['GET'])
 def generate_credit_card_image():
     # Get parameters from the GET request
-    card_number = request.args.get('card_number')
+    card_number = request.args.get('card_number', '0000000000000000')
     card_holder = request.args.get('card_holder', 'CARD HOLDER')
-    expiration_date = request.args.get('expiration_date', '01/23')
+    expiration_date = request.args.get('expiration_date', '00/00')
     background_color_param = request.args.get('background_color')  # Optional parameter
 
     # Convert background color parameter to RGB tuple
