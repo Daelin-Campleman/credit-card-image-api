@@ -25,10 +25,10 @@ def generate_credit_card_image():
             background_color = tuple(map(int, background_color_param.split(',')))
         except ValueError:
             # If provided color is invalid, default to current background color
-            background_color = (75, 0, 0)
+            background_color = (66, 39, 59)
     else:
         # If background color parameter not provided, default to current background color
-        background_color = (75, 0, 0)
+        background_color = (66, 39, 59)
 
     # Convert background color parameter to RGB tuple
     if secondary_background_color:
@@ -36,10 +36,10 @@ def generate_credit_card_image():
             secondary_background_color = tuple(map(int, secondary_background_color.split(',')))
         except ValueError:
             # If provided color is invalid, default to current background color
-            secondary_background_color = (255, 150, 150)
+            secondary_background_color = (112, 86, 109)
     else:
         # If background color parameter not provided, default to current background color
-        secondary_background_color = (255, 150, 150)
+        secondary_background_color = (112, 86, 109)
 
     # Create a blank image with appropriate dimensions and specified background color
     width, height = 640, 400
@@ -47,9 +47,9 @@ def generate_credit_card_image():
     draw = ImageDraw.Draw(image)
 
     # Use default font
-    numFont = ImageFont.truetype("VeraMono.ttf", 40)
-    expFont = ImageFont.truetype("VeraMono.ttf", 24)
-    nameFont = ImageFont.truetype("VeraMono.ttf", 30)
+    numFont = ImageFont.truetype("Kredit_Embossed.ttf", 50)
+    expFont = ImageFont.truetype("Kredit_Embossed.ttf", 30)
+    nameFont = ImageFont.truetype("Kredit_Embossed.ttf", 40)
     bankFont = ImageFont.truetype("script.ttf", 50)
     smallFont = ImageFont.truetype("micrenc.ttf", 16)
 
@@ -64,52 +64,53 @@ def generate_credit_card_image():
 
     # Draw card number with spaces
     card_number_with_spaces = insert_spaces(card_number)
-    draw.text((40, 200), f"{card_number_with_spaces}", fill=(200, 200, 200), font=numFont)
+    draw.text((40, 200), f"{card_number_with_spaces}", fill=(255, 255, 255), font=numFont)
 
     # Draw card holder
-    draw.text((40, 340), f"{card_holder.upper()}", fill=(200, 200, 200), font=nameFont)
+    draw.text((40, 330), f"{card_holder.upper()}", fill=(255, 255, 255), font=nameFont)
 
     # Draw expiration date
-    draw.text((40, 260), f"{expiration_date}", fill=(200, 200, 200), font=expFont)
+    draw.text((40, 260), f"{expiration_date}", fill=(255, 255, 255), font=expFont)
 
-    draw.text((20, 20), f"{bank_name}", fill=(200, 200, 200), font=bankFont)
+    draw.text((20, 20), f"{bank_name}", fill=(255, 255, 255), font=bankFont)
 
-    draw.text((40, 380), f"{account_number}", fill=(200, 200, 200), font=smallFont)
+    draw.text((40, 380), f"{account_number}", fill=(150, 150, 150), font=smallFont)
 
-    # Draw rectangle in the middle with 6 smaller rectangles inside it
+    # Draw rounded rectangle in the middle with 6 smaller rectangles inside it
     rectangle_color = (219, 172, 52)  # Choose your desired rectangle color here
-    rectangle_width = 100
+    rectangle_width = 80
     rectangle_height = 60
     rectangle_x = (width - rectangle_width) // 5
     rectangle_y = (height - rectangle_height) // 3
-    draw.rectangle([rectangle_x, rectangle_y, 
-                    rectangle_x + rectangle_width, rectangle_y + rectangle_height], 
-                    outline=rectangle_color)
+    border_radius = 10  # Adjust the border radius as needed
+    draw.rounded_rectangle([rectangle_x, rectangle_y, 
+                            rectangle_x + rectangle_width, rectangle_y + rectangle_height], 
+                            outline=rectangle_color, width=2, radius=border_radius)
     
-    # Draw 6 smaller rectangles inside the middle rectangle in 2 rows
+    # Draw 6 smaller rectangles inside the middle rounded rectangle in 2 rows
     small_rectangle_color = (219, 172, 52)  # Choose your desired small rectangle color here
-    small_rectangle_width = 22
-    small_rectangle_height = 20
-    small_rectangle_spacing_x = 8
-    small_rectangle_spacing_y = 8
+    small_rectangle_width = 20
+    small_rectangle_height = 22
+    small_rectangle_spacing_x = 5
+    small_rectangle_spacing_y = 6
     for i in range(2):
         for j in range(3):
             small_rectangle_x = rectangle_x + (rectangle_width - 3 * small_rectangle_width - 2 * small_rectangle_spacing_x) // 2 + j * (small_rectangle_width + small_rectangle_spacing_x)
             small_rectangle_y = rectangle_y + (rectangle_height - 2 * small_rectangle_height - small_rectangle_spacing_y) // 2 + i * (small_rectangle_height + small_rectangle_spacing_y)
-            draw.rectangle([small_rectangle_x, small_rectangle_y,
+            draw.rounded_rectangle([small_rectangle_x, small_rectangle_y,
                             small_rectangle_x + small_rectangle_width, small_rectangle_y + small_rectangle_height],
-                           fill=small_rectangle_color)
+                           fill=small_rectangle_color, radius=border_radius/2)
 
     # Open the "visa.png" image
-    visa_image = Image.open("visa.png")
+    visa_image = Image.open("visa_white.png")
     if visa_image.mode != "RGBA":
         visa_image = visa_image.convert("RGBA")
     # Resize the visa image to approximately 50 pixels wide while maintaining aspect ratio
     visa_image.thumbnail((150, 150))
     # Calculate the position to paste the visa image (bottom right corner)
     visa_width, visa_height = visa_image.size
-    paste_x = width - visa_width - 10  # 10 is a padding value
-    paste_y = height - visa_height  # 10 is a padding value
+    paste_x = width - visa_width - 20  # 10 is a padding value
+    paste_y = height - visa_height - 20  # 10 is a padding value
     # Paste the visa image onto the generated image
     image.paste(visa_image, (paste_x, paste_y), mask=visa_image)
 
