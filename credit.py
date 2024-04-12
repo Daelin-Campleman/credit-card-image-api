@@ -15,6 +15,7 @@ def generate_credit_card_image():
     card_holder = request.args.get('card_holder', 'CARD HOLDER')
     expiration_date = request.args.get('expiration_date', '00/00')
     background_color_param = request.args.get('background_color')  # Optional parameter
+    secondary_background_color = request.args.get('background_color_secondary')
     bank_name = request.args.get('bank_name', '')
 
     # Convert background color parameter to RGB tuple
@@ -28,6 +29,17 @@ def generate_credit_card_image():
         # If background color parameter not provided, default to current background color
         background_color = (75, 0, 0)
 
+    # Convert background color parameter to RGB tuple
+    if secondary_background_color:
+        try:
+            secondary_background_color = tuple(map(int, secondary_background_color.split(',')))
+        except ValueError:
+            # If provided color is invalid, default to current background color
+            secondary_background_color = (255, 150, 150)
+    else:
+        # If background color parameter not provided, default to current background color
+        secondary_background_color = (255, 150, 150)
+
     # Create a blank image with appropriate dimensions and specified background color
     width, height = 640, 400
     image = Image.new("RGB", (width, height), background_color)
@@ -39,6 +51,15 @@ def generate_credit_card_image():
     nameFont = ImageFont.truetype("VeraMono.ttf", 30)
     bankFont = ImageFont.truetype("script.ttf", 50)
     smallFont = ImageFont.truetype("micrenc.ttf", 16)
+
+    # Draw circle in the upper right-hand corner
+    circle_color = secondary_background_color  # Choose your desired circle color here
+    circle_radius = 400
+    circle_x = width
+    circle_y = 0
+    draw.ellipse([circle_x - circle_radius, circle_y - circle_radius, 
+                  circle_x + circle_radius, circle_y + circle_radius], 
+                  fill=circle_color)
 
     # Draw card number with spaces
     card_number_with_spaces = insert_spaces(card_number)
@@ -52,16 +73,7 @@ def generate_credit_card_image():
 
     draw.text((20, 20), f"{bank_name}", fill=(200, 200, 200), font=bankFont)
 
-    draw.text((40, 380), f"{card_number}", fill=(200, 200, 200), font=smallFont)
-
-    # Draw circle in the upper right-hand corner
-    circle_color = (255, 150, 150)  # Choose your desired circle color here
-    circle_radius = 20
-    circle_x = width - 40
-    circle_y = 40
-    draw.ellipse([circle_x - circle_radius, circle_y - circle_radius, 
-                  circle_x + circle_radius, circle_y + circle_radius], 
-                  fill=circle_color)
+    draw.text((40, 380), f"{card_number}_{expiration_date.replace('/', '')}", fill=(200, 200, 200), font=smallFont)
 
     # Draw rectangle in the middle with 6 smaller rectangles inside it
     rectangle_color = (219, 172, 52)  # Choose your desired rectangle color here
