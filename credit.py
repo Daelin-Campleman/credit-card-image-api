@@ -117,7 +117,7 @@ def generate_credit_card_image():
 
     # Rotate the image by 90 degrees if "portrait" parameter is present
     if portrait:
-        image = image.transpose(Image.ROTATE_90)
+        image = image.transpose(Image.ROTATE_270)
 
     # Save image to byte stream
     img_byte_array = io.BytesIO()
