@@ -8,7 +8,7 @@ def insert_spaces(card_number):
     # Insert a space every 4 digits in the card number
     return ' '.join([card_number[i:i+4] for i in range(0, len(card_number), 4)])
 
-@app.route('/generate_credit_card_image', methods=['GET'])
+@app.route('/', methods=['GET'])
 def generate_credit_card_image():
     # Get parameters from the GET request
     card_number = request.args.get('card_number')
@@ -101,4 +101,4 @@ def generate_credit_card_image():
     return img_byte_array.getvalue(), 200, {'Content-Type': 'image/png'}
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=10000, host="0.0.0.0")
