@@ -15,6 +15,7 @@ def generate_credit_card_image():
     card_holder = request.args.get('card_holder', 'CARD HOLDER')
     expiration_date = request.args.get('expiration_date', '00/00')
     background_color_param = request.args.get('background_color')  # Optional parameter
+    bank_name = request.args.get('bank_name', '')
 
     # Convert background color parameter to RGB tuple
     if background_color_param:
@@ -36,6 +37,8 @@ def generate_credit_card_image():
     numFont = ImageFont.truetype("VeraMono.ttf", 20)
     expFont = ImageFont.truetype("VeraMono.ttf", 12)
     nameFont = ImageFont.truetype("VeraMono.ttf", 15)
+    bankFont = ImageFont.truetype("script.ttf", 25)
+    smallFont = ImageFont.truetype("micrenc.ttf", 8)
 
     # Draw card number with spaces
     card_number_with_spaces = insert_spaces(card_number)
@@ -46,6 +49,10 @@ def generate_credit_card_image():
 
     # Draw expiration date
     draw.text((20, 130), f"{expiration_date}", fill=(200, 200, 200), font=expFont)
+
+    draw.text((10, 10), f"{bank_name}", fill=(200, 200, 200), font=bankFont)
+
+    draw.text((20, 190), f"{card_number}", fill=(200, 200, 200), font=smallFont)
 
     # Draw circle in the upper right-hand corner
     circle_color = (255, 150, 150)  # Choose your desired circle color here
@@ -61,7 +68,7 @@ def generate_credit_card_image():
     rectangle_width = 50
     rectangle_height = 30
     rectangle_x = (width - rectangle_width) // 5
-    rectangle_y = (height - rectangle_height) // 4
+    rectangle_y = (height - rectangle_height) // 3
     draw.rectangle([rectangle_x, rectangle_y, 
                     rectangle_x + rectangle_width, rectangle_y + rectangle_height], 
                     outline=rectangle_color)
@@ -88,8 +95,8 @@ def generate_credit_card_image():
     visa_image.thumbnail((75, 75))
     # Calculate the position to paste the visa image (bottom right corner)
     visa_width, visa_height = visa_image.size
-    paste_x = width - visa_width - 10  # 10 is a padding value
-    paste_y = height - visa_height - 10  # 10 is a padding value
+    paste_x = width - visa_width - 5  # 10 is a padding value
+    paste_y = height - visa_height  # 10 is a padding value
     # Paste the visa image onto the generated image
     image.paste(visa_image, (paste_x, paste_y), mask=visa_image)
 
