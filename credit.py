@@ -101,4 +101,4 @@ def generate_credit_card_image():
     return img_byte_array.getvalue(), 200, {'Content-Type': 'image/png'}
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
