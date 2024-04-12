@@ -5,22 +5,11 @@ Sample Card:
 
 https://credit-card-image-api.onrender.com
 
-Card with custom details:
-
-https://credit-card-image-api.onrender.com?card_number=1234567890123456&card_holder=John+Doe&expiration_date=12%2F24
-
-Card with custom details and background:
-
-https://credit-card-image-api.onrender.com?card_number=1234567890123456&card_holder=John+Doe&expiration_date=12%2F24&background_color=100,10,10
-
-Custom secondary background:
-
-https://credit-card-image-api.onrender.com?card_number=1234567890123456&card_holder=John+Doe&expiration_date=12%2F24&background_color=100,10,10&bank_name=The+Best+Bank&background_color_secondary=0,0,0
-
-Custom bank name:
-
-https://credit-card-image-api.onrender.com?card_number=1234567890123456&card_holder=John+Doe&expiration_date=12%2F24&background_color=100,10,10&bank_name=The+Best+Bank
-
 ## Parameters
 
-card_number
+- card_number
+- card_holder
+- expiration_date
+- background_color
+- background_color_secondary
+- bank_name
