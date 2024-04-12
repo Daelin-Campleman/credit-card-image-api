@@ -11,7 +11,7 @@ def insert_spaces(card_number):
 @app.route('/', methods=['GET'])
 def generate_credit_card_image():
     # Get parameters from the GET request
-    card_number = request.args.get('card_number', '0000000000000000')
+    card_number = request.args.get('card_number') or '0000000000000000'
     card_holder = request.args.get('card_holder', 'CARD HOLDER')
     expiration_date = request.args.get('expiration_date', '00/00')
     background_color_param = request.args.get('background_color')  # Optional parameter
@@ -42,7 +42,7 @@ def generate_credit_card_image():
     draw.text((20, 100), f"{card_number_with_spaces}", fill=(200, 200, 200), font=numFont)
 
     # Draw card holder
-    draw.text((20, 170), f"{card_holder}", fill=(200, 200, 200), font=nameFont)
+    draw.text((20, 170), f"{card_holder.upper()}", fill=(200, 200, 200), font=nameFont)
 
     # Draw expiration date
     draw.text((20, 130), f"{expiration_date}", fill=(200, 200, 200), font=expFont)
