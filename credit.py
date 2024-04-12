@@ -16,6 +16,7 @@ def generate_credit_card_image():
     expiration_date = request.args.get('expiration_date', '00/00')
     background_color_param = request.args.get('background_color')  # Optional parameter
     secondary_background_color = request.args.get('background_color_secondary')
+    account_number = request.args.get('account_number', '00000000')
     bank_name = request.args.get('bank_name', '')
 
     # Convert background color parameter to RGB tuple
@@ -73,7 +74,7 @@ def generate_credit_card_image():
 
     draw.text((20, 20), f"{bank_name}", fill=(200, 200, 200), font=bankFont)
 
-    draw.text((40, 380), f"{card_number}_{expiration_date.replace('/', '')}", fill=(200, 200, 200), font=smallFont)
+    draw.text((40, 380), f"{account_number}", fill=(200, 200, 200), font=smallFont)
 
     # Draw rectangle in the middle with 6 smaller rectangles inside it
     rectangle_color = (219, 172, 52)  # Choose your desired rectangle color here
